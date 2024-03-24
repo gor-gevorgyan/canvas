@@ -7,7 +7,7 @@ export const authOptions: AuthOptions = {
             name: "canvas",
             type: "oauth",
             authorization: {
-                url: "https://kauth.kakao.com/oauth/authorize",
+                url: "https://assignguard.instructure.com/api/lti/authorize_redirect",
                 params: {
                     scope: [
                         "url:GET|/api/v1/courses/:course_id/assignment_groups",
@@ -67,8 +67,9 @@ export const authOptions: AuthOptions = {
                     ].join(",")
                 }
             },
-            token: "https://kauth.kakao.com/oauth/token",
-            userinfo: "https://kapi.kakao.com/v2/user/me",
+            clientId: "237180000000000004",
+            clientSecret: "j7zhU3gcDncKftA50hIaHNvTC1P44KHK1qkssDeaq03nZyaFQHrbtWRXIJTqCqdz",
+            token: "https://assignguard.instructure.com/login/oauth2/token",
             profile(profile: any) {
                 return profile;
             },
