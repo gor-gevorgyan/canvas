@@ -3,7 +3,7 @@ import NextAuth, { AuthOptions } from "next-auth"
 export const authOptions: AuthOptions = {
     providers: [
         {
-            id: "kakao",
+            id: "canvas",
             name: "canvas",
             type: "oauth",
             authorization: {
