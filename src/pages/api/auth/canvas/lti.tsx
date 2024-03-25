@@ -33,7 +33,7 @@ export default function handler(request: Request, response: NextApiResponse) {
 
 	// return fmt.Sprintf("%s/api/lti/authorize_redirect?%s", iss, params.Encode())
 
-    let state: string = randomBytes(20).toString('hex');
+    let state: string = crypto.randomUUID();
 
     const params = {
         lti_message_hint: body.lti_message_hint,
