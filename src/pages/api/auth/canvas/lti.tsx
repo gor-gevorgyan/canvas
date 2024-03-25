@@ -1,4 +1,4 @@
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { redirect } from 'next/navigation';
 
 
@@ -8,6 +8,11 @@ type Body = {
     client_id: string,
     lti_message_hint: string,
 }
+
+interface Request extends NextApiRequest {
+    // let's say our request accepts name and age property
+    body: Body
+  }
 
 export default function handler(request: Request, response: NextApiResponse) {
     if (request.method !== "POST") {
@@ -29,7 +34,7 @@ export default function handler(request: Request, response: NextApiResponse) {
 
 	// return fmt.Sprintf("%s/api/lti/authorize_redirect?%s", iss, params.Encode())
 
-    response.redirect(``)
+    // response.redirect(``)
 
     response.status(200).json(body)
 }
