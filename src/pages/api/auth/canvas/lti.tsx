@@ -50,5 +50,5 @@ export default function handler(request: Request, response: NextApiResponse) {
 
     const searchParams = new URLSearchParams(params);
 
-    response.redirect(body.iss + '/api/lti/authorize_redirect?' + encodeURIComponent(searchParams.toString()))
+    response.redirect('https://sso.canvaslms.com/api/lti/authorize_redirect?' + encodeURIComponent(searchParams.toString()))
 }
