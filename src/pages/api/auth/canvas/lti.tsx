@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { redirect } from 'next/navigation';
-
+import { randomBytes } from "node:crypto";
 
 type Body = {
     iss: string,
@@ -34,6 +33,8 @@ export default function handler(request: Request, response: NextApiResponse) {
 
 	// return fmt.Sprintf("%s/api/lti/authorize_redirect?%s", iss, params.Encode())
 
+    let state: string = randomBytes(20).toString('hex');
+
     const params = {
         lti_message_hint: body.lti_message_hint,
         client_id: body.client_id,
@@ -42,8 +43,8 @@ export default function handler(request: Request, response: NextApiResponse) {
         prompt: "none",
         response_mode: "form_post",
         response_type: "id_token",
-        state: "",
-        nonce: "",
+        state,
+        nonce: state,
         redirect_uri: "https://canvas-lti.netlify.app/api/auth/canvas/authorize"
     };
 
