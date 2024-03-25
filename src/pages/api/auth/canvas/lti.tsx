@@ -34,7 +34,20 @@ export default function handler(request: Request, response: NextApiResponse) {
 
 	// return fmt.Sprintf("%s/api/lti/authorize_redirect?%s", iss, params.Encode())
 
-    // response.redirect(``)
+    const params = {
+        lti_message_hint: body.lti_message_hint,
+        client_id: body.client_id,
+        login_hint: body.login_hint,
+        scope: "openid",
+        prompt: "none",
+        response_mode: "form_post",
+        response_type: "id_token",
+        state: "",
+        nonce: "",
+        redirect_uri: "https://canvas-lti.netlify.app/api/auth/canvas/authorize"
+    };
 
-    response.status(200).json(body.iss)
+    const searchParams = new URLSearchParams(params);
+
+    response.redirect(body.iss + '/api/lti/authorize_redirect?' + encodeURIComponent(searchParams.toString()))
 }
