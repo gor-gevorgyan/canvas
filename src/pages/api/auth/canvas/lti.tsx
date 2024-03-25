@@ -36,5 +36,5 @@ export default function handler(request: Request, response: NextApiResponse) {
 
     // response.redirect(``)
 
-    response.status(200).json(body)
+    response.status(200).json(body.iss)
 }
