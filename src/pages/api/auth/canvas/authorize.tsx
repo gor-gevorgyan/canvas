@@ -14,6 +14,20 @@ type Body = {
     id_token: string,
 }
 
+type CustomData = {
+    account_name: string
+    canvas_user_id: string
+    canvas_course_id: string
+    membership_roles: string
+    canvas_account_id: string
+    canvas_api_domain: string
+    external_tool_url: string
+    launch_presentation_locale: string
+    canvas_root_account_id: string
+    canvas_root_account_uuid: string
+    canvas_course_section_ids: string
+}
+
 interface Request extends NextApiRequest {
     // let's say our request accepts name and age property
     body: Body
@@ -48,5 +62,7 @@ export default async function handler(request: Request, response: NextApiRespons
     const publickKey = jwkToPem(key.keys[0]);
     const payload = jwt.decode(request.body.id_token, publickKey);
 
-    response.status(200).json({ success: true, data: payload });
+    let customData: CustomData = payload["https://purl.imsglobal.org/spec/lti/claim/custom"];
+
+    response.status(200).json({ success: true, data: customData });
 }
