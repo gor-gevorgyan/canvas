@@ -29,7 +29,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
         let x = await JWKS(stage);
 
-        response.status(400).json({ success: false, data: x })
+        return response.status(400).json({ success: false, data: x })
     }
 
     response.status(200).json({ success: true, data: request.body })
