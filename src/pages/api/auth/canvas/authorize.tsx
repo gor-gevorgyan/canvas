@@ -1,12 +1,24 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { JWKS } from "../../../../app/canvas";
+import { promisify } from 'util';
+
+const jwt = require('jsonwebtoken');
 
 type ResponseData = {
     success: boolean
     data?: any
 }
 
-export default async function handler(request: NextApiRequest, response: NextApiResponse<ResponseData>) {
+type Body = {
+    id_token: string,
+}
+
+interface Request extends NextApiRequest {
+    // let's say our request accepts name and age property
+    body: Body
+}
+
+export default async function handler(request: Request, response: NextApiResponse<ResponseData>) {
     if (request.method !== "POST") {
         return response.status(400).json({ success: false })
     }
@@ -30,7 +42,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
                 stage = "";
         }
 
-        let x = await JWKS(stage);
+        let key = await JWKS(stage);
 
-        response.status(200).json({ success: false, data: x })
+        let f = await promisify(jwt.verify)(request.body.id_token, key);
+
+        response.status(200).json({ success: true, data: f })
 }

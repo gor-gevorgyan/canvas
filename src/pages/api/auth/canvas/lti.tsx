@@ -11,7 +11,7 @@ type Body = {
 interface Request extends NextApiRequest {
     // let's say our request accepts name and age property
     body: Body
-  }
+}
 
 export default function handler(request: Request, response: NextApiResponse) {
     if (request.method !== "POST") {
