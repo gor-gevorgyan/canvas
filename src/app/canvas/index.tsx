@@ -1,4 +1,6 @@
-function Scopes() : string {
+import { JWK } from "./types";
+
+export function Scopes() : string {
     return [
         "url:GET|/api/v1/courses/:course_id/assignment_groups",
         "url:GET|/api/v1/courses/:course_id/assignment_groups/:assignment_group_id",
@@ -55,4 +57,10 @@ function Scopes() : string {
         "url:GET|/api/v1/courses/:course_id/quizzes/:id",
         "url:GET|/api/v1/courses/:course_id/all_quizzes",
     ].join(",");
+}
+
+export async function JWKS(stage: string) : Promise<JWK> {
+    return await fetch(`https://canvas.${stage}instructure.com/api/lti/security/jwks`)
+        .then(res => res.json())
+        .then(res => res);
 }

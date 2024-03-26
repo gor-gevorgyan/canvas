@@ -14,7 +14,6 @@ interface Request extends NextApiRequest {
   }
 
 export default function handler(request: Request, response: NextApiResponse) {
-    console.log(232332, request.headers)
     if (request.method !== "POST") {
         response.status(400).json({ success: false })
     }
@@ -31,7 +30,7 @@ export default function handler(request: Request, response: NextApiResponse) {
         response_type: "id_token",
         state,
         nonce: state,
-        redirect_uri: request.headers["x-forwarded-proto"] +  "://" + request.headers["x-forwarded-host"] + "/api/auth/canvas/authorize"
+        redirect_uri: request.headers["x-forwarded-proto"] +  "://" + request.headers["x-forwarded-host"] + "/api/auth/canvas/authorize?iss=" + request.body.iss
     };
 
     const searchParams = new URLSearchParams(params);
