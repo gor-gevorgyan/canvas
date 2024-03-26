@@ -56,7 +56,7 @@ export function Scopes() : string {
         "url:GET|/api/v1/courses/:course_id/quizzes",
         "url:GET|/api/v1/courses/:course_id/quizzes/:id",
         "url:GET|/api/v1/courses/:course_id/all_quizzes",
-    ].join(",");
+    ].join(" ");
 }
 
 export async function JWKS(stage: string) : Promise<JWK> {
