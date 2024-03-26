@@ -45,7 +45,7 @@ export default async function handler(request: Request, response: NextApiRespons
         let key = await JWKS(stage);
 
         let d:any
-        await promisify(jwt.verify)(request.body.id_token, key.keys)
+        await promisify(jwt.verify)(request.body.id_token, key.keys[0])
             .then((res: any) => {
                 d = res
             })
