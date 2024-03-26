@@ -43,14 +43,16 @@ export default async function handler(request: Request, response: NextApiRespons
         }
 
         let key = await JWKS(stage);
-        let d:any
-        await promisify(jwt.verify)(request.body.id_token, key)
-            .then((res: any) => {
-                d = res
-            })
-            .catch((err: any) => {
-                d = err
-            });
 
-        response.status(200).json({ success: true, data: d })
+        let dec = jwt.verify(request.body.id_token, key.keys)
+        // let d:any
+        // await promisify(jwt.verify)(request.body.id_token, key)
+        //     .then((res: any) => {
+        //         d = res
+        //     })
+        //     .catch((err: any) => {
+        //         d = err
+        //     });
+
+        response.status(200).json({ success: true, data: dec })
 }
