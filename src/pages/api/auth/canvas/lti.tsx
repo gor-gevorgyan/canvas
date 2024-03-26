@@ -31,7 +31,7 @@ export default function handler(request: Request, response: NextApiResponse) {
         response_type: "id_token",
         state,
         nonce: state,
-        redirect_uri: request.headers["x-forwarded-proto"] +  "//" + request.headers["x-forwarded-host"] + "/api/auth/canvas/authorize"
+        redirect_uri: request.headers["x-forwarded-proto"] +  "://" + request.headers["x-forwarded-host"] + "/api/auth/canvas/authorize"
     };
 
     const searchParams = new URLSearchParams(params);
