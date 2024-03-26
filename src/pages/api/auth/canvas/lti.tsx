@@ -14,41 +14,27 @@ interface Request extends NextApiRequest {
   }
 
 export default function handler(request: Request, response: NextApiResponse) {
+    console.log(232332, request.headers)
     if (request.method !== "POST") {
         response.status(400).json({ success: false })
     }
 
-    const body: Body = request.body
-
-    // params.Add("lti_message_hint", queryParams.Get("lti_message_hint"))
-	// params.Add("client_id", queryParams.Get("client_id"))
-	// params.Add("login_hint", queryParams.Get("login_hint"))
-	// params.Add("scope", "openid")
-	// params.Add("prompt", "none")
-	// params.Add("response_mode", "form_post")
-	// params.Add("response_type", "id_token")
-	// params.Add("state", random)
-	// params.Add("nonce", random)
-	// params.Add("redirect_uri", fmt.Sprintf("%s://%s/authorizeLTI?iss=%s", parsedTargetURI.Scheme, parsedTargetURI.Host, iss))
-
-	// return fmt.Sprintf("%s/api/lti/authorize_redirect?%s", iss, params.Encode())
-
     let state: string = crypto.randomUUID();
 
     const params = {
-        lti_message_hint: body.lti_message_hint,
-        client_id: body.client_id,
-        login_hint: body.login_hint,
+        lti_message_hint: request.body.lti_message_hint,
+        client_id: request.body.client_id,
+        login_hint: request.body.login_hint,
         scope: "openid",
         prompt: "none",
         response_mode: "form_post",
         response_type: "id_token",
         state,
         nonce: state,
-        redirect_uri: "https://canvas-lti.netlify.app/api/auth/canvas/authorize"
+        redirect_uri: request.headers["x-forwarded-proto"] +  "//" + request.headers["x-forwarded-host"] + "/api/auth/canvas/authorize"
     };
 
     const searchParams = new URLSearchParams(params);
 
-    response.redirect(body.iss + '/api/lti/authorize_redirect?' + (searchParams.toString()))
+    response.redirect(request.body.iss + '/api/lti/authorize_redirect?' + (searchParams.toString()))
 }
