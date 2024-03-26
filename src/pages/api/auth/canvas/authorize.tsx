@@ -7,8 +7,11 @@ type ResponseData = {
 }
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse<ResponseData>) {
-    if (request.method === "POST") {
-        const iss:string = request.query.iss as string;
+    if (request.method !== "POST") {
+        return response.status(400).json({ success: false })
+    }
+
+    const iss:string = request.query.iss as string;
 
         let stage: string;
 
@@ -29,8 +32,5 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
         let x = await JWKS(stage);
 
-        return response.status(400).json({ success: false, data: x })
-    }
-
-    response.status(200).json({ success: true, data: request.body })
+        response.status(200).json({ success: false, data: x })
 }
