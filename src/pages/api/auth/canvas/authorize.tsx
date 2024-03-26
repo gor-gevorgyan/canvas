@@ -7,7 +7,7 @@ type ResponseData = {
 }
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse<ResponseData>) {
-    if (request.method !== "POST") {
+    if (request.method === "POST") {
         const iss:string = request.query.iss as string;
 
         let stage: string;
