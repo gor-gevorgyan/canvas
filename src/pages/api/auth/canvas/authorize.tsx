@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { JWKS, Scopes } from "../../../../app/canvas";
+import { redirect } from 'next/dist/server/api-utils';
 
 const jwkToPem = require('jwk-to-pem');
 
@@ -66,7 +67,9 @@ export default async function handler(request: Request, response: NextApiRespons
 
     // check token exists or not and generate
 
-    response.redirect(generateRedirectToGenerateToken(request, customData))
+    redirect(response, generateRedirectToGenerateToken(request, customData))
+
+    // response.redirect(generateRedirectToGenerateToken(request, customData))
 
     // response.status(200).json({ success: true, data: customData });
 }
