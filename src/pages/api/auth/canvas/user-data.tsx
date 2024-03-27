@@ -6,7 +6,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
         return response.status(400).json({success: false});
     }
 
-    return response.status(200).json({data: request.query})
+    if (request.query.error !== undefined) {
+        return response.status(400).json({error: request.query.error})
+    }
 
     let cleint: CanvasAPI = {
         clientID: "237180000000000004",
