@@ -1,16 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default function handler(request: NextApiRequest, response: NextApiResponse) {
+export default async function handler(request: NextApiRequest, response: NextApiResponse) {
     if (request.method !== "GET") {
         return response.status(400).json({success: false});
     }
 
-    // const topenGenerationURL: string = ("https://%s/login/oauth2/token?client_id=%s&client_secret=%s&code=%s",
-	// 	domain.Host,
-	// 	devData.ID,
-	// 	*secret,
-	// 	code,
-	// )
+    let referer = new URL(request.headers.referer || "");
 
-    response.status(200).json({ success: true, data: request.query, headers: request.headers });
+    let url: string = referer.origin + "/login/oauth2/token?client_id=237180000000000004" + "&client_secret=j7zhU3gcDncKftA50hIaHNvTC1P44KHK1qkssDeaq03nZyaFQHrbtWRXIJTqCqdz" + "&code=" + request.query.code;
+    
+    let tokenData = await fetch(url, {
+        method: "POST"
+    }).then(res => res.json());
+
+    response.status(200).json({ success: true, data: tokenData });
 }
