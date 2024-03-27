@@ -76,5 +76,5 @@ function generateRedirectToGenerateToken(request: Request, customData: CustomDat
     let redirectURI: string = request.headers["x-forwarded-proto"] +  "://" + request.headers["x-forwarded-host"] + "/api/auth/canvas/user-data";
     const state: string = customData.canvas_root_account_uuid + "_" + customData.canvas_course_id + "_" + customData.canvas_user_id;
 
-    return "https://" + customData.canvas_api_domain + "/login/oauth2/auth?response_type=code&client_id=237180000000000004&scope=" + Scopes() + "&redirect_uri=" + redirectURI;
+    return "https://" + customData.canvas_api_domain + "/login/oauth2/auth?response_type=code&client_id=237180000000000004&scope=" + Scopes() + "&state=" + state + "&redirect_uri=" + redirectURI;
 }
