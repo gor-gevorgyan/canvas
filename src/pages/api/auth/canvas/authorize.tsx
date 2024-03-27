@@ -67,9 +67,7 @@ export default async function handler(request: Request, response: NextApiRespons
 
     // check token exists or not and generate
 
-    redirect(response, generateRedirectToGenerateToken(request, customData))
-
-    // response.redirect(generateRedirectToGenerateToken(request, customData))
+    response.redirect(307, generateRedirectToGenerateToken(request, customData))
 
     // response.status(200).json({ success: true, data: customData });
 }
