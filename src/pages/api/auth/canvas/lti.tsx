@@ -1,16 +1,8 @@
+import { Login } from '@/app/canvas/types';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { randomBytes } from "node:crypto";
-
-type Body = {
-    iss: string,
-    login_hint: string,
-    client_id: string,
-    lti_message_hint: string,
-}
 
 interface Request extends NextApiRequest {
-    // let's say our request accepts name and age property
-    body: Body
+    body: Login
 }
 
 export default function handler(request: Request, response: NextApiResponse) {

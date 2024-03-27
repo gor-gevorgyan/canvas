@@ -1,42 +1,20 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { JWKS, Scopes } from "../../../../app/canvas";
-import { redirect } from 'next/dist/server/api-utils';
+import { CustomData } from '@/app/canvas/types';
 
 const jwkToPem = require('jwk-to-pem');
-
 const jwt = require('jsonwebtoken');
-
-type ResponseData = {
-    success: boolean
-    data?: any
-}
-
-type Body = {
-    id_token: string,
-}
-
-type CustomData = {
-    account_name: string
-    canvas_user_id: string
-    canvas_course_id: string
-    membership_roles: string
-    canvas_account_id: string
-    canvas_api_domain: string
-    external_tool_url: string
-    launch_presentation_locale: string
-    canvas_root_account_id: string
-    canvas_root_account_uuid: string
-    canvas_course_section_ids: string
-}
 
 interface Request extends NextApiRequest {
     // let's say our request accepts name and age property
-    body: Body
+    body: {
+        id_token: string,
+    }
 }
 
-export default async function handler(request: Request, response: NextApiResponse<ResponseData>) {
+export default async function handler(request: Request, response: NextApiResponse) {
     if (request.method !== "POST") {
-        return response.status(200).json({ success: false })
+        return response.status(400)
     }
 
     const iss:string = request.query.iss as string;
