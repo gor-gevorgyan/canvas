@@ -1,3 +1,8 @@
+export type CanvasAPI = {
+    clientID: string
+    clientSecret: string
+}
+
 export type JWK = {
     keys: JWKData[]
 }

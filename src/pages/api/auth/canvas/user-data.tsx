@@ -1,3 +1,4 @@
+import { CanvasAPI } from '@/app/canvas/types';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
@@ -5,9 +6,13 @@ export default async function handler(request: NextApiRequest, response: NextApi
         return response.status(400).json({success: false});
     }
 
-    let referer = new URL(request.headers.referer || "");
+    let cleint: CanvasAPI = {
+        clientID: "237180000000000004",
+        clientSecret: "j7zhU3gcDncKftA50hIaHNvTC1P44KHK1qkssDeaq03nZyaFQHrbtWRXIJTqCqdz"
+    }
 
-    let url: string = referer.origin + "/login/oauth2/token?client_id=237180000000000004" + "&client_secret=j7zhU3gcDncKftA50hIaHNvTC1P44KHK1qkssDeaq03nZyaFQHrbtWRXIJTqCqdz" + "&code=" + request.query.code;
+    let referer = new URL(request.headers.referer || "");
+    let url: string = referer.origin + "/login/oauth2/token?client_id="+ cleint.clientID + "&client_secret=" + cleint.clientSecret + "&code=" + request.query.code;
     
     let tokenData = await fetch(url, {
         method: "POST"
