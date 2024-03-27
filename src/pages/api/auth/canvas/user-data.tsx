@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(request: NextApiRequest, response: NextApiResponse) {
-    response.status(200).json({ success: true, data: request.body, c: request.method });
+    if (request.method !== "GET") {
+        return response.status(400).json({success: false});
+    }
+
+    response.status(200).json({ success: true, data: request.query });
 }
