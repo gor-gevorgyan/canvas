@@ -6,6 +6,8 @@ export default async function handler(request: NextApiRequest, response: NextApi
         return response.status(400).json({success: false});
     }
 
+    return response.status(200).json({data: request.body})
+
     let cleint: CanvasAPI = {
         clientID: "237180000000000004",
         clientSecret: "j7zhU3gcDncKftA50hIaHNvTC1P44KHK1qkssDeaq03nZyaFQHrbtWRXIJTqCqdz"
