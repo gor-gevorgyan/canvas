@@ -17,11 +17,7 @@ export type EnrollmentData = {
 // url:GET|/api/v1/courses/:course_id/enrollments
 export async function enrollmentsGet(apiMinData: APIMinData): Promise<EnrollmentData> {
     let data = await axios
-        .get("https://"+ apiMinData.APIDomain +"/api/v1/courses/" + apiMinData.courseID + "/enrollments?per_page=1", {
-            headers: {
-                Authorization: apiMinData.AccessToken
-            }
-        });
+        .get("https://"+ apiMinData.APIDomain +"/api/v1/courses/" + apiMinData.courseID + "/enrollments?per_page=1&access_token="+apiMinData.AccessToken);
 
     return {
         pagination: pagination(data.headers.link || ""),

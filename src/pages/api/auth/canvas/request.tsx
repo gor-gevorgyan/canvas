@@ -7,7 +7,7 @@ export default async function Request(req:NextApiRequest, res: NextApiResponse) 
     const apiMinData: APIMinData = {
         courseID: 2,
         APIDomain: "assignguard.instructure.com",
-        AccessToken: "23718~hIVV8KhG54XAB0SxJphumOu0NeQX1x78bNgMetN2RAV8SUXnukLScKbaGK0YrNps"
+        AccessToken: "23718~9NffLMNlsCRYVUa2eBH2eMYWz2cvg9PBPzuX5r502u1oZz7OySCHZA826dJkuLoq"
     }
 
     let data = await enrollmentsGet(apiMinData)
