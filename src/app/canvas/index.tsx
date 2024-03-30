@@ -1,4 +1,4 @@
-import { JWK } from "./types";
+import { JWK, Pagintation } from "./types";
 
 export function Scopes() : string {
     return [
@@ -56,6 +56,7 @@ export function Scopes() : string {
         "url:GET|/api/v1/courses/:course_id/quizzes",
         "url:GET|/api/v1/courses/:course_id/quizzes/:id",
         "url:GET|/api/v1/courses/:course_id/all_quizzes",
+        "url:GET|/api/v1/courses/:course_id/enrollments"
     ].join(" ");
 }
 
@@ -63,4 +64,66 @@ export async function JWKS(stage: string) : Promise<JWK> {
     return await fetch(`https://canvas.${stage}instructure.com/api/lti/security/jwks`)
         .then(res => res.json())
         .then(res => res);
+}
+
+export function pagination(data: string) : Pagintation {
+    let itemsData = data.replaceAll(/[<>]/gi, "").split(",");
+    let pagination = {} as Pagintation;
+
+    for (let item of itemsData) {
+        let searchParams: URLSearchParams; 
+
+        switch (true) {
+            case item.includes('; rel="current"'):
+                pagination.current = item.replace('; rel="current"', "");
+
+                searchParams = new URLSearchParams(pagination.current);
+                let currnetPage = searchParams.get("page") || "";
+
+                pagination.page = +currnetPage || 1;
+
+                if (currnetPage !== "first") {
+                    pagination.currentBookmark = currnetPage
+                }
+
+                break;
+
+            case item.includes('; rel="next"'):
+                pagination.next = item.replace('; rel="next"', "");
+
+                if (pagination.currentBookmark === "" || pagination.currentBookmark.includes("bookmark:")) {
+                    searchParams = new URLSearchParams(pagination.next);
+    
+                    pagination.currentBookmark = searchParams.get("page") || "";
+                }
+
+                break;
+
+            case item.includes('; rel="last"'):
+                pagination.last = item.replace('; rel="last"', "");
+                searchParams = new URLSearchParams(pagination.last);
+
+                let lastPage = searchParams.get("page") || "";
+
+                pagination.lastPage = +lastPage || 1;
+
+                if (lastPage != "first") {
+                    pagination.lastBookmark = lastPage;
+                }
+
+                break;
+
+            case item.includes('; rel="first"'):
+                pagination.first = item.replace('; rel="first"', "");
+
+                break;
+
+            case item.includes('; rel="prev"'):
+                pagination.prev = item.replace('; rel="prev"', "");
+
+                break;
+        }
+    }
+
+    return pagination
 }

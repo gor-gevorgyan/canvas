@@ -18,14 +18,32 @@ export type CustomData = {
 }
 
 export type Login = {
-    iss: string,
-    login_hint: string,
-    client_id: string,
-    lti_message_hint: string,
+    iss: string
+    login_hint: string
+    client_id: string
+    lti_message_hint: string
+}
+
+export type APIMinData = {
+    courseID: number
+    APIDomain: string
+    AccessToken: string
 }
 
 export type JWK = {
     keys: JWKData[]
+}
+
+export type Pagintation = {
+    current: string
+    next: string
+    prev: string
+    first: string
+    last: string
+    currentBookmark: string
+    lastBookmark: string
+	lastPage: number
+    page: number
 }
 
 type JWKData = {
